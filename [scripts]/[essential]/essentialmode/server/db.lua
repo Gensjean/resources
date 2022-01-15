@@ -27,10 +27,10 @@ exposedDB = {}
 
 function db.firstRunCheck()
 	if settings.defaultSettings.enableCustomData ~= '1' and settings.defaultSettings.defaultDatabase ~= '1' then
-		PerformHttpRequest("http://" .. ip .. ":" .. port .. "/essentialmode/_compact", function(err, rText, headers)
+		PerformHttpRequest("http://" .. ip .. ":" .. port .. "/fivem/_compact", function(err, rText, headers)
 		end, "POST", "", {["Content-Type"] = "application/json", Authorization = "Basic " .. auth})
 
-		PerformHttpRequest("http://" .. ip .. ":" .. port .. "/essentialmode", function(err, rText, headers)
+		PerformHttpRequest("http://" .. ip .. ":" .. port .. "/fivem", function(err, rText, headers)
 			if err == 0 then
 				print(_Prefix .. "-------------------------------------------------------------")
 				print(_Prefix .. "--- No errors detected, essentialmode is setup properly. ---")
@@ -48,7 +48,7 @@ function db.firstRunCheck()
 				print(_Prefix .. "-------------------------------------------------------------")
 				print(_Prefix .. "--- No errors detected, essentialmode is setup properly. ---")
 				print(_Prefix .. "-------------------------------------------------------------")
-				log('== DB Created ==')			
+				log('== DB Created ==')
 			else
 				print(_PrefixError .. "------------------------------------------------------------------------------------------------")
 				print(_PrefixError .. "--- Unknown error detected ( " .. err .. " ): " .. rText)
@@ -107,7 +107,7 @@ local function getUUID(amount, cb)
 end
 
 local function getDocument(uuid, callback)
-	requestDB('GET', 'essentialmode/' .. uuid, nil, nil, function(err, rText, headers)
+	requestDB('GET', 'fivem/' .. uuid, nil, nil, function(err, rText, headers)
 		local doc =  json.decode(rText)
 
 		if err ~= 200 then
@@ -125,7 +125,7 @@ local function createDocument(doc, cb)
 	if doc == nil or type(doc) ~= "table" then doc = {} end
 
 	getUUID(1, function(uuid)
-		requestDB('PUT', 'essentialmode/' .. uuid, doc, {["Content-Type"] = 'application/json'}, function(err, rText, headers)
+		requestDB('PUT', 'fivem/' .. uuid, doc, {["Content-Type"] = 'application/json'}, function(err, rText, headers)
 			if err ~= 201 then
 				print(_PrefixError .. 'Error occurred while performing database request: could not create document, error code: ' .. err .. ", server returned: " .. rText)
 			else
@@ -153,7 +153,7 @@ local function updateDocument(docID, updates, callback)
 				doc.license = updates.license
 			end
 
-			requestDB('PUT', 'essentialmode/' .. docID, doc, {["Content-Type"] = 'application/json'}, function(err, rText, headers)
+			requestDB('PUT', 'fivem/' .. docID, doc, {["Content-Type"] = 'application/json'}, function(err, rText, headers)
 				if rText == nil then
 					print(_PrefixError .. 'Error occurred while performing database request: could not update document error ' .. err )
 				else
@@ -211,7 +211,7 @@ end
 function db.doesUserExist(identifier, callback)
 	if settings.defaultSettings.enableCustomData ~= '1' and settings.defaultSettings.defaultDatabase ~= '1' then
 		if identifier ~= nil and type(identifier) == "string" then
-			requestDB('POST', 'essentialmode/_find', {selector = {["identifier"] = identifier}}, {["Content-Type"] = 'application/json'}, function(err, rText, headers)
+			requestDB('POST', 'fivem/_find', {selector = {["identifier"] = identifier}}, {["Content-Type"] = 'application/json'}, function(err, rText, headers)
 				if rText then
 					if callback then
 						if json.decode(rText).docs[1] then callback(true) else callback(false) end
@@ -233,7 +233,7 @@ end
 function db.retrieveUser(identifier, callback)
 	if settings.defaultSettings.enableCustomData ~= '1' and settings.defaultSettings.defaultDatabase ~= '1' then
 		if identifier ~= nil and type(identifier) == "string" then
-			requestDB('POST', 'essentialmode/_find', {selector = {["identifier"] = identifier}}, {["Content-Type"] = 'application/json'}, function(err, rText, headers)
+			requestDB('POST', 'fivem/_find', {selector = {["identifier"] = identifier}}, {["Content-Type"] = 'application/json'}, function(err, rText, headers)
 				local doc =  json.decode(rText).docs[1]
 				if callback then
 					if doc then callback(doc) else callback(false) end
