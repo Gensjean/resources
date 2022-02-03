@@ -4,11 +4,6 @@
 --- DateTime: 21/04/2019 21:20
 ---
 
-print("")
-print("^1Crée par : Haci Petlay^0")
-print("^4Pour : LegendRP.^0")
-print("")
-
 
 ---round
 ---@param num number

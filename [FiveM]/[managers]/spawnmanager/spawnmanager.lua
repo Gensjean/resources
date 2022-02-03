@@ -208,9 +208,9 @@ function spawnPlayer(spawnIdx, cb)
     if spawnLock then
         return
     end
-
+    
     spawnLock = true
-
+    
     Citizen.CreateThread(function()
         -- if the spawn isn't set, select a random one
         if not spawnIdx then
@@ -320,7 +320,6 @@ function spawnPlayer(spawnIdx, cb)
                 Citizen.Wait(0)
             end
         end
-
         -- and unfreeze the player
         freezePlayer(PlayerId(), false)
 
@@ -341,7 +340,7 @@ local diedAt
 Citizen.CreateThread(function()
     -- main loop thing
     while true do
-        Citizen.Wait(50)
+        Citizen.Wait(500)
 
         local playerPed = PlayerPedId()
 
