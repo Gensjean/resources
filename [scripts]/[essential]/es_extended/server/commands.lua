@@ -37,23 +37,6 @@ end, function(source, args, user)
 	TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', 'Permissions insuffisantes' } })
 end, {help = _U('setjob'), params = {{name = "id", help = _U('id_param')}, {name = "job", help = _U('setjob_param2')}, {name = "grade_id", help = _U('setjob_param3')}}})
 
----SecondJob Included
-TriggerEvent('es:addGroupCommand', 'setjob2', 'jobmaster', function(source, args, user)
-	if tonumber(args[1]) and args[2] and tonumber(args[3]) then
-		local xPlayer = ESX.GetPlayerFromId(args[1])
-
-		if xPlayer then
-			xPlayer.setJob2(args[2], tonumber(args[3]))
-		else
-			TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', 'Joueur non connecte' } })
-		end
-	else
-		TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', 'Invalid Usage invalide' } })
-	end
-end, function(source, args, user)
-	TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', 'Permissions insuffisantes' } })
-end, {help = _U('setjob'), params = {{name = "id", help = _U('id_param')}, {name = "job", help = _U('setjob_param2')}, {name = "grade_id", help = _U('setjob_param3')}}})
-
 TriggerEvent('es:addGroupCommand', 'loadipl', 'superadmin', function(source, args, user)
 	TriggerClientEvent('esx:loadIPL', -1, args[1])
 end, function(source, args, user)

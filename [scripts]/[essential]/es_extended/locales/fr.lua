@@ -52,7 +52,6 @@ Locales['fr'] = {
 
   -- Commands
   ['setjob'] = 'assigner job',
-  ['setjob2'] = 'assigner job2',
   ['id_param'] = 'identification du joueur',
   ['setjob_param2'] = 'le travail que vous souhaitez assigner',
   ['setjob_param3'] = 'le niveau d\'emploi',
