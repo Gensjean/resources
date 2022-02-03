@@ -196,9 +196,76 @@ AddEventHandler('es:playerLoaded', function(source, _player)
 				end)
 
 			end)
+
+            --- SECONDJOB INCLUDED
+			-- Get name, grade2 and last position
+			table.insert(tasks2, function(cb2)
+
+				MySQL.Async.fetchAll('SELECT loadout, position FROM `users` WHERE `identifier` = @identifier', {
+					['@identifier'] = player.getIdentifier()
+				}, function(result)
+
+					if result[1].loadout ~= nil then
+						userData.loadout = json.decode(result[1].loadout)
+
+						-- Compatibility with old loadouts prior to components update
+						for k,v in ipairs(userData.loadout) do
+							if v.components == nil then
+								v.components = {}
+							end
+						end
+					end
+
+					if result[1].position ~= nil then
+						userData.lastPosition = json.decode(result[1].position)
+					end
+
+					cb2()
+				end)
+
+			end)
+
 			Async.series(tasks2, cb)
 
 		end)
+
+        ---SECONDJOB INCLUDED
+		-- Run Tasks
+		Async.parallel(tasks, function(results)
+			local xPlayer = CreateExtendedPlayer(player, userData.accounts, userData.inventory, userData.job, userData.loadout, userData.playerName, userData.lastPosition)
+
+			xPlayer.getMissingAccounts(function(missingAccounts)
+				if #missingAccounts > 0 then
+
+					for i=1, #missingAccounts, 1 do
+						table.insert(xPlayer.accounts, {
+							name  = missingAccounts[i],
+							money = 0,
+							label = Config.AccountLabels[missingAccounts[i]]
+						})
+					end
+
+					xPlayer.createAccounts(missingAccounts)
+				end
+
+				ESX.Players[_source] = xPlayer
+
+				TriggerEvent('esx:playerLoaded', _source, xPlayer)
+
+				TriggerClientEvent('esx:playerLoaded', _source, {
+					identifier   = xPlayer.identifier,
+					accounts     = xPlayer.getAccounts(),
+					inventory    = xPlayer.getInventory(),
+					job          = xPlayer.getJob(),
+					loadout      = xPlayer.getLoadout(),
+					lastPosition = xPlayer.getLastPosition(),
+					money        = xPlayer.getMoney()
+				})
+
+				xPlayer.displayMoney(xPlayer.getMoney())
+			end)
+		end)
+
 	end)
 end)
 

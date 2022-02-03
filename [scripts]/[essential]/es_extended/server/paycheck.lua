@@ -7,6 +7,7 @@ ESX.StartPayCheck = function()
 			local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
 			local job     = xPlayer.job.grade_name
 			local salary  = xPlayer.job.grade_salary
+
 			if salary > 0 then
 				if job == 'unemployed' then -- unemployed
 					xPlayer.addAccountMoney('bank', salary)
@@ -34,6 +35,7 @@ ESX.StartPayCheck = function()
 					TriggerClientEvent('esx:showAdvancedNotification', xPlayer.source, _U('bank'), _U('received_paycheck'), _U('received_salary', salary), 'CHAR_BANK_MAZE', 9)
 				end
 			end
+
 		end
 
 		SetTimeout(Config.PaycheckInterval, payCheck)

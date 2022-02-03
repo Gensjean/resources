@@ -51,7 +51,7 @@ Locales['fr'] = {
   ['cannot_pickup_room'] = 'vous n\'avez plus de place pour ~y~%s~s~!',
 
   -- Commands
-  ['setjob'] = 'assigner un emploi',
+  ['setjob'] = 'assigner job',
   ['id_param'] = 'identification du joueur',
   ['setjob_param2'] = 'le travail que vous souhaitez assigner',
   ['setjob_param3'] = 'le niveau d\'emploi',
